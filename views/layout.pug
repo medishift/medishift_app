@@ -1,0 +1,25 @@
+doctype html
+html(lang='en')
+    head
+        title MediShift
+        link(rel='stylesheet' href='bower_components/bootstrap/dist/css/bootstrap.css')
+        script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js')
+
+
+    body
+        .navbar.navbar-dark.bg-dark.shadow-sm
+          .container.d-flex.justify-content-between
+            button#sidebarCollapse.navbar-btn(type='button')
+                span
+                span
+                span
+            a.navbar-brand.d-flex.align-items-center(href='/')
+              strong MediShift
+
+
+        .container
+            block content
+            br
+            hr
+            footer
+                p Copyright &copy; 2019

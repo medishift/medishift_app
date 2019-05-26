@@ -1,0 +1,148 @@
+link(rel='stylesheet', href='css/data_input.css')
+.input_container
+    .panel.panel-default
+        .panel-heading Manual Health Data Entry
+        .panel-body
+            .input-group.control-group
+                div.form-control
+                    select(id='dataType' style="width: 40%; height: 100%; margin-right: 1%;")
+                        option(value='Temperature') Temperature
+                        option(value='Blood Pressure') Blood Pressure
+                        option(value='Heartbeats Rate') Heartbeats Rate
+                        option(value='Oxygen Level') Oxygen Level
+                        option(value='Weight') Weight
+                    input(style="width: 59%; padding-left: 10px;" type='number', id="data", placeholder='Celsius', required="false")
+
+                .input-group-btn
+                    button.btn.btn-success.add-more(type='button')
+                        i.glyphicon.glyphicon-plus
+            form(method='POST', action='/input_data')
+                .after-add-more
+
+                input.aap-cta-button(type='submit', value='Submit', style="margin: 1%; float: right;")
+            // Copy Fields
+            .copy.hide
+                .control-group.input-group(style='margin-top:10px;')
+                    input.form-control(type='text', id="new_data", name='addmore[]', placeholder='Enter Name Here')
+                    .input-group-btn
+                        button.btn.btn-danger.remove(type='button')
+                            i.glyphicon.glyphicon-minus
+            .alert.alert-warning.hide#type-exist(style="position: absolute; bottom: -50px; right: 16px;")
+                strong Warning!
+                |  You have already entered this value. Remove it first To add new value
+            .alert.alert-warning.hide#invalid-value(style="position: absolute; bottom: -50px; right: 16px;")
+                strong Error!
+                |  Please enter a valid value
+
+
+script(type='text/javascript').
+    $(document).ready(function () {
+        $(".add-more").click(function () {
+            var dataType = document.getElementsByName("newDataType");
+            if (dataType) {
+                var found = false;
+                $(dataType).each(function () {
+                    console.log(this.getAttribute("value"));
+                    if (this.getAttribute("value") == document.getElementById("dataType").value) {
+                        $("#type-exist").toggleClass("hide");
+                        setTimeout(function () {
+                            $("#type-exist").toggleClass("hide");
+                        }, 5000);
+                        found = true;
+                    }
+                });
+                if (found) {
+                    return;
+                }
+            }
+            if (!document.getElementById("data").value) {
+                invalidDataWarning();
+                return;
+            }
+
+            // data input validation
+            if (!isDataInputValid()) {
+                invalidDataWarning();
+                return;
+            }
+
+            var html = '<div class="control-group input-group" style="margin-top:10px;">' +
+                '<label class="form-control"><p style="font-weight: bold; color: #000000">' +
+                document.getElementById("dataType").value + ":  " + document.getElementById("data").value + '</p></label>' +
+                '<input class="form-control" type="hidden" id="newDataType" name="newDataType" value="' +
+                document.getElementById("dataType").value + '" />' +
+                '<input class="form-control" type="hidden" id="newData" name="newData" value="' +
+                document.getElementById("data").value + '" />' +
+                '<div class="input-group-btn">' +
+                '<button class="btn btn-danger remove" type="button">' +
+                '<i class="glyphicon glyphicon-minus"></i>' +
+                '</button>' +
+                '</div>' +
+                '</div>';
+            $(".after-add-more").after(html);
+        });
+        $("body").on("click", ".remove", function () {
+            $(this).parents(".control-group").remove();
+        });
+        setDataInputUnits();
+    });
+
+    function setDataInputUnits() {
+        $("#dataType").change(function () {
+            document.getElementById("data").value = null;
+            if (document.getElementById("dataType").value == "Temperature") {
+                document.getElementById("data").setAttribute("placeholder", "Celsius");
+                return;
+            }
+            if (document.getElementById("dataType").value == "Blood Pressure") {
+                document.getElementById("data").setAttribute("placeholder", "Systolic/Diastolic (mmHg/mmHg)");
+                document.getElementById("data").setAttribute("type", "text");
+                return;
+            }
+            if (document.getElementById("dataType").value == "Heartbeats Rate") {
+                document.getElementById("data").setAttribute("placeholder", "BPM");
+                return;
+            }
+            if (document.getElementById("dataType").value == "Oxygen Level") {
+                document.getElementById("data").setAttribute("placeholder", "mmHg");
+                return;
+            }
+            if (document.getElementById("dataType").value == "Weight") {
+                document.getElementById("data").setAttribute("placeholder", "KG");
+            }
+        });
+    }
+
+    function invalidDataWarning() {
+        $("#invalid-value").toggleClass("hide");
+        setTimeout(function () {
+            $("#invalid-value").toggleClass("hide");
+        }, 5000);
+    }
+
+    function isDataInputValid() {
+        var inputValue = document.getElementById("data").value;
+        if (document.getElementById("dataType").value == "Temperature") {
+            return (inputValue <= 40 && inputValue >= 34);
+        }
+        if (document.getElementById("dataType").value == "Blood Pressure") {
+            inputValue = inputValue.split("/");
+            if (inputValue.length != 2) {
+                return false;
+            }
+
+            console.log(inputValue[0]);
+            console.log(inputValue[1]);
+            return ($.isNumeric(inputValue[0]) && inputValue[0] <= 190 && inputValue[0] >= 70 &&
+                $.isNumeric(inputValue[1]) && inputValue[1] <= 100 && inputValue[1] >= 40)
+        }
+        if (document.getElementById("dataType").value == "Heartbeats Rate") {
+            return (inputValue <= 200 && inputValue >= 30);
+        }
+        if (document.getElementById("dataType").value == "Oxygen Level") {
+            return (inputValue <= 200 && inputValue >= 30);
+        }
+        if (document.getElementById("dataType").value == "Weight") {
+            return (inputValue <= 1000 && inputValue >= 2);
+        }
+    }

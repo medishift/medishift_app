@@ -1,0 +1,28 @@
+//script(type='text/javascript', src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js')
+//link(rel='stylesheet', href='https://use.fontawesome.com/releases/v5.0.13/css/all.css')
+link(rel='stylesheet', href='https://use.fontawesome.com/releases/v5.7.0/css/all.css', integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ', crossorigin='anonymous')
+link(rel='stylesheet', href='css/nav_bar.css')
+
+
+.nav_bar_wrapper
+    nav.tabs
+        selector
+            a#your_health(href='/')
+                i.fas.fa-stethoscope
+                | Your Health
+            a#analysis(href='/input_data')
+                i.fas.fa-chart-bar
+                | Analysis
+            a#suggesions(href='/')
+                i.fas.fa-pills
+                | Suggestions
+            a#tracking(href='/')
+                i.fas.fa-file-contract
+                | health tracking
+            a#reports(href='/')
+                i.fas.fa-file-medical-alt
+                | reports
+
+
+
+script(type='text/javascript', src='js/nav_bar.js')
