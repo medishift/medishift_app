@@ -1,0 +1,35 @@
+link(rel='stylesheet', href='css/report.css')
+h2 Your Medical Records
+p
+    | Here is a table of all data you have entered:
+div.pre-scrollable
+    table.table
+        thead.thead-light
+            tr
+                th Temperature
+                    p celsius
+                th Blood Pressure (systolic)
+                    p mmHg
+                th Blood Pressure (diastolic)
+                    p mmHg
+                th Heartbeats Rate
+                    p BPM
+                th Blood Oxygen Level
+                    p mmHg
+                th Weight
+                    p KG
+                th Input Date
+                    p
+                        br
+        tbody
+            each medicalRecord, i in medicalRecords
+                tr
+                    td.report= medicalRecord.temperature
+                    td.report= medicalRecord.systolic
+                    td.report= medicalRecord.diastolic
+                    td.report= medicalRecord.heartbeats_rate
+                    td.report= medicalRecord.oxygen_level
+                    th.report= medicalRecord.weight
+                    td.report= medicalRecord.created_date.toDateString()
+nav.tab(style="background: #000; margin-top: 5%;")
+    a.buttonDownload(href='/report/download') Download

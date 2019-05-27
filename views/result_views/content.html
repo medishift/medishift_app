@@ -1,0 +1,37 @@
+<input id="isSaved" type="hidden"/><input id="medicalRecords" type="hidden"/><div class="display-result-here"></div><script type="text/javascript">$(document).ready(function () {
+    let isSaved = document.getElementById('isSaved').value;
+    if (!isSaved) {
+        let html = '<div class="panel panel-danger">' +
+            '<div class="panel-heading"><h3><strong>Data Store Failure</strong></h3><p>unable to save your medical record at this time!</p></div>' +
+            '</div>';
+        $(".display-result-here").after(html);
+        return;
+    }
+
+    let html = '<div class="panel panel-success">' +
+        '<div class="panel-heading"><h3><strong>New Medical Records Successfully Saved!</strong></h3><p>you can view your medical records at any time using report function.</p></div>' +
+        '</div>';
+    let medicalRecords = JSON.parse(document.getElementById('medicalRecords').value);
+    if (medicalRecords.temperature) {
+        if (medicalRecords.temperature > 37) {
+            html += '<div class="panel panel-danger">\n' +
+                '<div class="panel-heading">High Body Temperature</div>\n' +
+                '<div class="panel-body">your body temperature is high</div>\n' +
+                '</div>';
+        }
+        else if(medicalRecords.temperature < 37){
+            html += '<div class="panel panel-danger">\n' +
+                '<div class="panel-heading">Low Body Temperature</div>\n' +
+                '<div class="panel-body">your body temperature is low</div>\n' +
+                '</div>';
+        }
+        else{
+            html += '<div class="panel panel-success">\n' +
+                '<div class="panel-heading">Normal Body Temperature</div>\n' +
+                '<div class="panel-body">your body temperature is normal</div>\n' +
+                '</div>';
+        }
+    }
+    $(".display-result-here").after(html);
+    console.log(medicalRecords.temperature);
+});</script>

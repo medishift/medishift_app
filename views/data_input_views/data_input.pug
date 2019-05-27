@@ -6,3 +6,19 @@ block content
         #content
             include content
     include ../nav_bar
+
+    script(type='text/javascript').
+        $(document).ready(function () {
+            $('.tabs a').removeClass("active");
+            var tab = document.getElementById("analysis");
+            if (tab == null) {
+                tab = document.getElementById("your_health");
+            }
+            $(tab).addClass('active');
+            var activeWidth = $(tab).innerWidth();
+            var itemPos = $(tab).position();
+            $(".selector").css({
+                "left": itemPos.left + "px",
+                "width": activeWidth + "px"
+            });
+        });

@@ -1,0 +1,91 @@
+link(rel='stylesheet', href='css/data_input.css')
+input(id='isSaved', type='hidden', value= isSaved)
+input(id='medicalRecords', type='hidden', value= medicalRecords)
+div.display-result-here
+script(type='text/javascript').
+    $(document).ready(function () {
+        let isSaved = document.getElementById('isSaved').value;
+        console.log(document.getElementById('isSaved').value);
+        if (isSaved == 0) {
+            let html = '<div class="panel panel-danger">' +
+                '<div class="panel-heading"><h3><strong>Data Store Failure</strong></h3><p>unable to save your medical record at this time!</p></div>' +
+                '</div>';
+            $(".display-result-here").after(html);
+            return;
+        }
+
+        let html = '<div class="panel panel-success">' +
+            '<div class="panel-heading"><h3><strong>New Medical Records Successfully Saved!</strong></h3><p>you can view your medical records at any time using report function.</p></div>' +
+            '</div>';
+        let medicalRecords = JSON.parse(document.getElementById('medicalRecords').value);
+        if (medicalRecords.temperature) {
+            html = analyzeTemperature(medicalRecords.temperature, html);
+        }
+        if (medicalRecords.heartbeats_rate) {
+            html = analyzeHeartbeatsRate(medicalRecords.heartbeats_rate, html);
+        }
+        if (medicalRecords.oxygen_level) {
+            html = analyzeOxygenLevel(medicalRecords.oxygen_level, html);
+        }
+        $(".display-result-here").after(html);
+    });
+
+    function analyzeTemperature(temperature, html) {
+        if (temperature > 37) {
+            html += '<div class="panel panel-danger">\n' +
+                '<div class="panel-heading">High Body Temperature</div>\n' +
+                '<div class="panel-body">your body temperature is high</div>\n' +
+                '</div>';
+        } else if (temperature < 37) {
+            html += '<div class="panel panel-danger">\n' +
+                '<div class="panel-heading">Low Body Temperature</div>\n' +
+                '<div class="panel-body">your body temperature is low</div>\n' +
+                '</div>';
+        } else {
+            html += '<div class="panel panel-success">\n' +
+                '<div class="panel-heading">Normal Body Temperature</div>\n' +
+                '<div class="panel-body">your body temperature is normal</div>\n' +
+                '</div>';
+        }
+        return html;
+    }
+
+    function analyzeHeartbeatsRate(heartbeatsRate, html) {
+        if (heartbeatsRate > 100) {
+            html += '<div class="panel panel-danger">\n' +
+                '<div class="panel-heading">High Heartbeats Rate</div>\n' +
+                '<div class="panel-body">your heartbeats rate is high</div>\n' +
+                '</div>';
+        } else if (heartbeatsRate < 40) {
+            html += '<div class="panel panel-danger">\n' +
+                '<div class="panel-heading">Low Heartbeats Rate</div>\n' +
+                '<div class="panel-body">your heartbeats rate is low</div>\n' +
+                '</div>';
+        } else {
+            html += '<div class="panel panel-success">\n' +
+                '<div class="panel-heading">Normal Heartbeats Rate</div>\n' +
+                '<div class="panel-body">your heartbeats rate is normal</div>\n' +
+                '</div>';
+        }
+        return html;
+    }
+
+    function analyzeOxygenLevel(oxygenLevel, html) {
+        if (oxygenLevel > 100) {
+            html += '<div class="panel panel-danger">\n' +
+                '<div class="panel-heading">High Oxygen Level</div>\n' +
+                '<div class="panel-body">your blood oxygen level is high</div>\n' +
+                '</div>';
+        } else if (oxygenLevel < 75) {
+            html += '<div class="panel panel-danger">\n' +
+                '<div class="panel-heading">Low Oxygen Level</div>\n' +
+                '<div class="panel-body">your blood oxygen level is low</div>\n' +
+                '</div>';
+        } else {
+            html += '<div class="panel panel-success">\n' +
+                '<div class="panel-heading">Normal Oxygen Level</div>\n' +
+                '<div class="panel-body">your blood oxygen level is normal</div>\n' +
+                '</div>';
+        }
+        return html;
+    }
