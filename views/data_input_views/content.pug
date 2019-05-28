@@ -27,13 +27,12 @@ link(rel='stylesheet', href='css/data_input.css')
                     .input-group-btn
                         button.btn.btn-danger.remove(type='button')
                             i.glyphicon.glyphicon-minus
-            .alert.alert-warning.hide#type-exist(style="position: absolute; bottom: -50px; right: 16px;")
+            .alert.alert-warning.hide#type-exist(style="position: absolute; top: 0px; right: 16px;")
                 strong Warning!
                 |  You have already entered this value. Remove it first To add new value
-            .alert.alert-warning.hide#invalid-value(style="position: absolute; bottom: -50px; right: 16px;")
-                strong Error!
+            .alert.alert-warning.hide#invalid-value(style="position: absolute; top: 0px; right: 16px;")
+                strong Warning!
                 |  Please enter a valid value
-
 
 script(type='text/javascript').
     $(document).ready(function () {

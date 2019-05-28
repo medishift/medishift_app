@@ -1769,6 +1769,11 @@ pre code {
   color: #495057;
   background-color: #e9ecef;
   border-color: #dee2e6;
+  text-align: center;
+}
+
+.table .report {
+  text-align: center;
 }
 
 .table-dark {

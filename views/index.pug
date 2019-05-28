@@ -6,11 +6,19 @@ block content
         #content
             //h1 #{title}
             ul.list-group
-                // each article, i in articles
-                //     li.list-group-item= article.title
+                 // each article, i in articles
+                     //li.list-group-item= article.title
     include nav_bar
 
     script(type='text/javascript').
         $(document).ready(function () {
-            localStorage.setItem("selectedTab", "your_health");
+            $('.tabs a').removeClass("active");
+            var tab = document.getElementById("your_health");
+            $(tab).addClass('active');
+            var activeWidth = $(tab).innerWidth();
+            var itemPos = $(tab).position();
+            $(".selector").css({
+                "left": itemPos.left + "px",
+                "width": activeWidth + "px"
+            });
         });
