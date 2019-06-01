@@ -35,39 +35,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.get('/', function (request, response) {
-    // let articles = [
-    //     {
-    //         id: 1,
-    //         title: 'Article One',
-    //         author: 'Brad Traversy',
-    //         body:'This is article one'
-    //     },
-    //
-    //     {
-    //         id: 2,
-    //         title: 'Article Two',
-    //         author: 'Brad Traversy',
-    //         body:'This is article two'
-    //     },
-    //
-    //     {
-    //         id: 3,
-    //         title: 'Article Three',
-    //         author: 'Brad Traversy',
-    //         body:'This is article three'
-    //     }
-    // ];
-
-    // Article.find({}, function (error, articles) {
-    //     if (error){
-    //         console.log(error);
-    //         return;
-    //     }
-    //
     response.render('index', {
         title: 'Article'
     });
-    // });
 });
 
 app.get('/input_data', function (request, response) {
@@ -103,21 +73,18 @@ app.post('/input_data', function (request, response) {
 
         medicalRecords.weight = (Array.isArray(data)) ? data[dataType.indexOf('Weight')] : data;
     }
-    console.log(new Date(Date.parse("2005-07-08T11:22:33+0000")));
     medicalRecords.created_date = new Date();
+    medicalRecords.created_day = medicalRecords.created_date.toLocaleDateString();
     console.log(medicalRecords);
-    // medicalRecords.save(function (error) {
-    //     if (error) {
-    //         console.log(error);
-    //     }
-        // response.render('result_views/result', {
-        //     value: medicalRecords
-        // })
+    medicalRecords.save(function (error) {
+        if (error) {
+            console.log(error);
+        }
         response.render('result_views/result', {
             isSaved: 1,
             medicalRecords: medicalRecords
         });
-    // });
+    });
 });
 
 app.get('/report', function (request, response) {
@@ -126,6 +93,7 @@ app.get('/report', function (request, response) {
             console.log(error);
             return;
         }
+
         response.render('report_views/report', {
             medicalRecords: medicalRecords
         });

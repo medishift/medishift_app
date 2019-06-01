@@ -22,6 +22,11 @@ let medicalRecordsSchema = mongoose.Schema({
     },
     created_date:{
         type: Date,
+        required: true
+    },
+    created_day:{
+        type: Date,
+        required: true
     }
 });
 
