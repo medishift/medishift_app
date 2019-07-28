@@ -3,27 +3,26 @@ link(rel='stylesheet', href='css/style5.css')
 nav#sidebar
     // Sidebar Header
     .sidebar-header
-        h3 Collapsible Sidebar
+        h3= fullName
         // Sidebar Links
     ul.list-unstyled.components
-        li.active
-            a(href='#') Home
         li
-            a(href='#') About
+            a(href='#') Medical Consultant
         li
-            // Link with dropdown items
-            a(href='#homeSubmenu', data-toggle='collapse', aria-expanded='false') Pages
-            ul#homeSubmenu.collapse.list-unstyled
-                li
-                    a(href='#') Page
-                li
-                    a(href='#') Page
-                li
-                    a(href='#') Page
+            a(href='#') Notification
         li
-            a(href='#') Portfolio
+            a(href='#') Activity Log
         li
-            a(href='#') Contact
+            a(href='#') Tutorial
+        li
+            a(href='#') Subscription Plan
+        li
+            a(href='#') Help
+        hr
+        li
+            a(href='#') Settings
+        li
+            a(href='/logout') Logout
 script(type='text/javascript').
     $(document).ready(function () {
         $('#sidebarCollapse').on('click', function () {
