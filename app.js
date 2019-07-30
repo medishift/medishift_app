@@ -7,6 +7,8 @@ const passport = require('passport');
 const config = require('./config/database');
 const expressValidator = require('express-validator');
 const session = require('express-session');
+const Algorithmia = require("algorithmia");
+
 
 const cookieParser = require('cookie-parser');
 //const session      = require('express-session');
@@ -122,10 +124,65 @@ app.get('/input_data', function (request, response) {
     });
 });
 
+function translateGender(medicalRecords) {
+    return medicalRecords.gender === "Male" ? 1 : 0;
+}
+
+function translateChestPain(medicalRecords) {
+    if (medicalRecords.chest_pain === "typical angina") {
+        return 1;
+    }
+    if (medicalRecords.chest_pain === "atypical angina") {
+        return 2;
+    }
+    if (medicalRecords.chest_pain === "non-anginal pain") {
+        return 3;
+    }
+    if (medicalRecords.chest_pain === "asymptomatic") {
+        return 4;
+    }
+    return 0;
+}
+
+function translateFastingBloodSugar(medicalRecords) {
+    return medicalRecords.fasting_blood_sugar > 120 ? 1 : 0;
+}
+
+function translateExersiceAngina(medicalRecords) {
+    return medicalRecords.exercise_induced_angina ? 1 : 0;
+}
+
+function translateSlope(medicalRecords) {
+    if (medicalRecords.slope === "Up Sloping"){
+        return 1;
+    }
+    if (medicalRecords.slope === "Flat"){
+        return 2;
+    }
+    if (medicalRecords.slope === "Down Sloping"){
+        return 3;
+    }
+    return 0;
+}
+
+function translateThalliumStressTest(medicalRecords) {
+    if (medicalRecords.thallium_stress_test === "Normal") {
+        return 3;
+    }
+    if (medicalRecords.thallium_stress_test === "Fixed Defect") {
+        return 6;
+    }
+    if (medicalRecords.thallium_stress_test === "Reversible Defect") {
+        return 7;
+    }
+    return 0;
+}
+
 // Add submit POST Route
 app.post('/input_data', function (request, response) {
     let dataType = request.body.newDataType;
     let data = request.body.newData;
+
     console.log(dataType);
     console.log(data);
 
@@ -142,26 +199,71 @@ app.post('/input_data', function (request, response) {
     if (dataType.includes('Heartbeats Rate')) {
         medicalRecords.heartbeats_rate = (Array.isArray(data)) ? data[dataType.indexOf('Heartbeats Rate')] : data;
     }
+    if (dataType.includes('Age')) {
+        medicalRecords.age = (Array.isArray(data)) ? data[dataType.indexOf('Age')] : data;
+    }
+    if (dataType.includes('Gender')) {
+        medicalRecords.gender = (Array.isArray(data)) ? data[dataType.indexOf('Gender')] : data;
+    }
+    if (dataType.includes('Fasting Blood Sugar')) {
+        medicalRecords.fasting_blood_sugar = (Array.isArray(data)) ? data[dataType.indexOf('Fasting Blood Sugar')] : data;
+    }
+    if (dataType.includes('Chest Pain Type')) {
+        medicalRecords.chest_pain = (Array.isArray(data)) ? data[dataType.indexOf('Chest Pain Type')] : data;
+    }
+    if (dataType.includes('Serum Cholesterol')) {
+        medicalRecords.serum_cholestorol = (Array.isArray(data)) ? data[dataType.indexOf('Serum Cholesterol')] : data;
+    }
+    if (dataType.includes('Exercise Induced Angina')) {
+        medicalRecords.exercise_induced_angina = (Array.isArray(data)) ? data[dataType.indexOf('Exercise Induced Angina')] : data;
+    }
+    if (dataType.includes('oldpeak')) {
+        medicalRecords.oldpeak = (Array.isArray(data)) ? data[dataType.indexOf('oldpeak')] : data;
+    }
+    if (dataType.includes('Slope')) {
+        medicalRecords.slope = (Array.isArray(data)) ? data[dataType.indexOf('Slope')] : data;
+    }
+    if (dataType.includes('Vessels')) {
+        medicalRecords.number_of_major_vessels = (Array.isArray(data)) ? data[dataType.indexOf('Vessels')] : data;
+    }
+    if (dataType.includes('Thallium Stress Test Result')) {
+        medicalRecords.thallium_stress_test = (Array.isArray(data)) ? data[dataType.indexOf('Thallium Stress Test Result')] : data;
+    }
     if (dataType.indexOf('Oxygen Level') > -1) {
         medicalRecords.oxygen_level = (Array.isArray(data)) ? data[dataType.indexOf('Oxygen Level')] : data;
     }
     if (dataType.includes('Weight')) {
-
         medicalRecords.weight = (Array.isArray(data)) ? data[dataType.indexOf('Weight')] : data;
     }
     medicalRecords.created_date = new Date();
     medicalRecords.created_day = medicalRecords.created_date.toLocaleDateString();
     medicalRecords.userID = getFromLocalStorage('./scratch', 'currentUserID');
     console.log(medicalRecords);
-    medicalRecords.save(function (error) {
-        if (error) {
-            console.log(error);
-        }
-        response.render('result_views/result', {
-            isSaved: 1,
-            medicalRecords: medicalRecords
+
+    let cardiovascularPercentage;
+    // TODO replace hardcode
+    let input = [medicalRecords.age, translateGender(medicalRecords), translateChestPain(medicalRecords), medicalRecords.systolic,
+        medicalRecords.serum_cholestorol, translateFastingBloodSugar(medicalRecords), 2, medicalRecords.heartbeats_rate,
+        translateExersiceAngina(medicalRecords), medicalRecords.oldpeak, translateSlope(medicalRecords), 
+        medicalRecords.number_of_major_vessels, translateThalliumStressTest(medicalRecords)];
+    Algorithmia.client("simA8QkOa7w0eKkYu3Z4BZMloOm1")
+        .algo("HakemShubar/cardiovascular_prediction/1.0.1?timeout=300") // timeout is optional
+        .pipe(input)
+        .then(function(algoResponse) {
+            console.log(algoResponse.get());
+            cardiovascularPercentage = Math.round(parseFloat(algoResponse.get()) * 100);
+            console.log(cardiovascularPercentage);
+            medicalRecords.save(function (error) {
+                if (error) {
+                    console.log(error);
+                }
+                response.render('result_views/result', {
+                    isSaved: 1,
+                    cardiovascularPercentage: cardiovascularPercentage,
+                    medicalRecords: medicalRecords
+                });
+            });
         });
-    });
 });
 
 app.get('/report', function (request, response) {

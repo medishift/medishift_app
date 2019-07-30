@@ -163,6 +163,16 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/views/result_views/content.pug">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/views/result_views/result.html">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/views/sidebar.pug">
           <value>
             <set />

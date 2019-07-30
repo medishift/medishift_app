@@ -1,6 +1,15 @@
 link(rel='stylesheet', href='css/data_input.css')
 input(id='isSaved', type='hidden', value= isSaved)
 input(id='medicalRecords', type='hidden', value= medicalRecords)
+input(id='cardiovascularPercentage', type='hidden', value= cardiovascularPercentage)
+.card.border-primary.mb-3(style='max-width: 33%; display: inline-block; margin-left: 33%')
+    .card-header Analysis Result
+    .card-body.text-primary
+        h5.card-title Your Risk of Having Cardiovascular Diseases is:
+        p.card-text(style="display: inline-block; margin-left: 40%; padding: 2%;")
+            span#percentage.label.label-info(style="font-size: 14pt;")
+
+
 div.display-result-here
 script(type='text/javascript').
     $(document).ready(function () {
@@ -18,6 +27,7 @@ script(type='text/javascript').
             '<div class="panel-heading"><h3><strong>New Medical Records Successfully Saved!</strong></h3><p>you can view your medical records at any time using report function.</p></div>' +
             '</div>';
         let medicalRecords = JSON.parse(document.getElementById('medicalRecords').value);
+        document.getElementById('percentage').innerHTML = document.getElementById('cardiovascularPercentage').value + "%";
         if (medicalRecords.temperature) {
             html = analyzeTemperature(medicalRecords.temperature, html);
         }
@@ -51,7 +61,7 @@ script(type='text/javascript').
     }
 
     function analyzeHeartbeatsRate(heartbeatsRate, html) {
-        if (heartbeatsRate > 100) {
+        if (heartbeatsRate > 200) {
             html += '<div class="panel panel-danger">\n' +
                 '<div class="panel-heading">High Heartbeats Rate</div>\n' +
                 '<div class="panel-body">your heartbeats rate is high</div>\n' +
