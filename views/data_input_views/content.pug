@@ -6,12 +6,48 @@ link(rel='stylesheet', href='css/data_input.css')
             .input-group.control-group
                 div.form-control
                     select(id='dataType' style="width: 40%; height: 100%; margin-right: 1%;")
+                        option(value='Age') Age
+                        option(value='Gender') Gender
+                        option(value='Weight') Weight
                         option(value='Temperature') Temperature
                         option(value='Blood Pressure') Blood Pressure
-                        option(value='Heartbeats Rate') Heartbeats Rate
+                        option(value='Fasting Blood Sugar') Fasting Blood Sugar
+                        option(value='Heartbeats Rate') Maximum Heartbeats Rate
+                        // TODO restecg?
+                        option(value='Chest Pain Type') Chest Pain Type
+                        option(value='Serum Cholesterol') Serum Cholesterol
+                        option(value='Exercise Induced Angina') Exercise Induced Angina
+                        option(value="oldpeak") ST depression induced by exercise relative to rest
+                        option(value="Slope") Slope of the peak exercise ST segment
+                        option(value="Vessels") Number of Major Vessels
+                        option(value="Thallium Stress Test Result") Thallium Stress Test Result
                         option(value='Oxygen Level') Oxygen Level
-                        option(value='Weight') Weight
-                    input(style="width: 59%; padding-left: 10px;" type='number', id="data", placeholder='Celsius', required="false")
+
+                    input(style="width: 59%; padding-left: 10px;" type='number', id="data", placeholder='year(s)', required="false")
+                    select(id='genderToggle' style="width: 58%; height: 100%; margin-right: 1%; display: none;")
+                        option(value='Male') Male
+                        option(value='Female') Female
+                    select(id='chestPainType' style="width: 58%; height: 100%; margin-right: 1%; display: none;")
+                        option(value='typical angina') typical angina
+                        option(value='atypical angina') atypical angina
+                        option(value='non-anginal pain') non-anginal pain
+                        option(value='asymptomatic') asymptomatic
+                    select(id='exang' style="width: 58%; height: 100%; margin-right: 1%; display: none;")
+                        option(value='yes') Yes
+                        option(value='no') No
+                    select(id='slopeType' style="width: 58%; height: 100%; margin-right: 1%; display: none;")
+                        option(value='Up Sloping') Up Sloping
+                        option(value='Flat') Flat
+                        option(value='Down Sloping') Down Sloping
+                    select(id='numberVessels' style="width: 58%; height: 100%; margin-right: 1%; display: none;")
+                        option(value='0') No Vessels
+                        option(value='1') One
+                        option(value='2') Two
+                        option(value='3') Three
+                    select(id='thal' style="width: 58%; height: 100%; margin-right: 1%; display: none;")
+                        option(value='Normal') Normal
+                        option(value='Fixed Defect') Fixed Defect
+                        option(value='Reversible Defect') Reversible Defect
 
                 .input-group-btn
                     button.btn.btn-success.add-more(type='button')
@@ -42,7 +78,7 @@ script(type='text/javascript').
                 var found = false;
                 $(dataType).each(function () {
                     console.log(this.getAttribute("value"));
-                    if (this.getAttribute("value") == document.getElementById("dataType").value) {
+                    if (this.getAttribute("value") === document.getElementById("dataType").value) {
                         $("#type-exist").toggleClass("hide");
                         setTimeout(function () {
                             $("#type-exist").toggleClass("hide");
@@ -54,10 +90,6 @@ script(type='text/javascript').
                     return;
                 }
             }
-            if (!document.getElementById("data").value) {
-                invalidDataWarning();
-                return;
-            }
 
             // data input validation
             if (!isDataInputValid()) {
@@ -67,11 +99,10 @@ script(type='text/javascript').
 
             var html = '<div class="control-group input-group" style="margin-top:10px;">' +
                 '<label class="form-control"><p style="font-weight: bold; color: #000000">' +
-                document.getElementById("dataType").value + ":  " + document.getElementById("data").value + '</p></label>' +
+                document.getElementById("dataType").value + ":  " + getInputData() + '</p></label>' +
                 '<input class="form-control" type="hidden" id="newDataType" name="newDataType" value="' +
                 document.getElementById("dataType").value + '" />' +
-                '<input class="form-control" type="hidden" id="newData" name="newData" value="' +
-                document.getElementById("data").value + '" />' +
+                '<input class="form-control" type="hidden" id="newData" name="newData" value="' + getInputData() + '" />' +
                 '<div class="input-group-btn">' +
                 '<button class="btn btn-danger remove" type="button">' +
                 '<i class="glyphicon glyphicon-minus"></i>' +
@@ -86,9 +117,50 @@ script(type='text/javascript').
         setDataInputUnits();
     });
 
+    /**
+    * get input data base on the data type selected.
+     */
+    function getInputData() {
+        if (document.getElementById("dataType").value === "Gender") {
+            return document.getElementById("genderToggle").value;
+        }
+        if (document.getElementById("dataType").value === "Chest Pain Type") {
+            return document.getElementById("chestPainType").value;
+        }
+        if (document.getElementById("dataType").value === "Exercise Induced Angina") {
+            return document.getElementById("exang").value;
+        }
+        if (document.getElementById("dataType").value === "Slope") {
+            return document.getElementById("slopeType").value;
+        }
+        if (document.getElementById("dataType").value === "Vessels") {
+            return document.getElementById("numberVessels").value;
+        }
+        if (document.getElementById("dataType").value === "Thallium Stress Test Result") {
+            return document.getElementById("thal").value;
+        }
+        return document.getElementById("data").value;
+    }
+
     function setDataInputUnits() {
         $("#dataType").change(function () {
+            document.getElementById("chestPainType").style.display = "none";
+            document.getElementById("genderToggle").style.display = "none";
+            document.getElementById("exang").style.display = "none";
+            document.getElementById("slopeType").style.display = "none";
+            document.getElementById("numberVessels").style.display = "none";
+            document.getElementById("thal").style.display = "none";
+            document.getElementById("data").style.display = "inline";
             document.getElementById("data").value = null;
+            if (document.getElementById("dataType").value === "Age") {
+                document.getElementById("data").setAttribute("placeholder", "year(s)");
+                return;
+            }
+            if (document.getElementById("dataType").value == "Gender") {
+                document.getElementById("data").style.display = "none";
+                document.getElementById("chestPainType").style.display = "none";
+                document.getElementById("genderToggle").style.display = "inline";
+            }
             if (document.getElementById("dataType").value == "Temperature") {
                 document.getElementById("data").setAttribute("placeholder", "Celsius");
                 return;
@@ -96,6 +168,10 @@ script(type='text/javascript').
             if (document.getElementById("dataType").value == "Blood Pressure") {
                 document.getElementById("data").setAttribute("placeholder", "Systolic/Diastolic (mmHg/mmHg)");
                 document.getElementById("data").setAttribute("type", "text");
+                return;
+            }
+            if (document.getElementById("dataType").value === "Fasting Blood Sugar") {
+                document.getElementById("data").setAttribute("placeholder", "mg/dl");
                 return;
             }
             if (document.getElementById("dataType").value == "Heartbeats Rate") {
@@ -109,6 +185,32 @@ script(type='text/javascript').
             if (document.getElementById("dataType").value == "Weight") {
                 document.getElementById("data").setAttribute("placeholder", "KG");
             }
+            if (document.getElementById("dataType").value == "Chest Pain Type") {
+                document.getElementById("data").style.display = "none";
+                document.getElementById("chestPainType").style.display = "inline";
+            }
+            if (document.getElementById("dataType").value === "Serum Cholesterol") {
+                document.getElementById("data").setAttribute("placeholder", "mg/dL");
+            }
+            if (document.getElementById("dataType").value === "Exercise Induced Angina") {
+                document.getElementById("data").style.display = "none";
+                document.getElementById("exang").style.display = "inline";
+            }
+            if (document.getElementById("dataType").value === "Slope") {
+                document.getElementById("data").style.display = "none";
+                document.getElementById("slopeType").style.display = "inline";
+            }
+            if (document.getElementById("dataType").value === "Vessels") {
+                document.getElementById("data").style.display = "none";
+                document.getElementById("numberVessels").style.display = "inline";
+            }
+            if (document.getElementById("dataType").value === "Thallium Stress Test Result") {
+                document.getElementById("data").style.display = "none";
+                document.getElementById("thal").style.display = "inline";
+            }
+            if (document.getElementById("dataType").value === "oldpeak") {
+                document.getElementById("data").setAttribute("placeholder", "");
+            }
         });
     }
 
@@ -121,12 +223,18 @@ script(type='text/javascript').
 
     function isDataInputValid() {
         var inputValue = document.getElementById("data").value;
-        if (document.getElementById("dataType").value == "Temperature") {
+        if (document.getElementById("dataType").value === "Temperature") {
             return (inputValue <= 40 && inputValue >= 34);
         }
-        if (document.getElementById("dataType").value == "Blood Pressure") {
+        if (document.getElementById("dataType").value === "Age") {
+            return (inputValue <= 150 && inputValue >= 1);
+        }
+        if (document.getElementById("dataType").value === "Gender") {
+            return true;
+        }
+        if (document.getElementById("dataType").value === "Blood Pressure") {
             inputValue = inputValue.split("/");
-            if (inputValue.length != 2) {
+            if (inputValue.length !== 2) {
                 return false;
             }
 
@@ -135,13 +243,37 @@ script(type='text/javascript').
             return ($.isNumeric(inputValue[0]) && inputValue[0] <= 190 && inputValue[0] >= 70 &&
                 $.isNumeric(inputValue[1]) && inputValue[1] <= 100 && inputValue[1] >= 40)
         }
-        if (document.getElementById("dataType").value == "Heartbeats Rate") {
+        if (document.getElementById("dataType").value === "Heartbeats Rate") {
             return (inputValue <= 200 && inputValue >= 30);
         }
-        if (document.getElementById("dataType").value == "Oxygen Level") {
+        if (document.getElementById("dataType").value === "Fasting Blood Sugar") {
+            return (inputValue <= 1000 && inputValue > 0);
+        }
+        if (document.getElementById("dataType").value === "Oxygen Level") {
             return (inputValue <= 200 && inputValue >= 30);
         }
-        if (document.getElementById("dataType").value == "Weight") {
+        if (document.getElementById("dataType").value === "Weight") {
             return (inputValue <= 1000 && inputValue >= 2);
         }
+        if (document.getElementById("dataType").value === "Serum Cholesterol") {
+            return (inputValue <= 1000 && inputValue > 0);
+        }
+        if (document.getElementById("dataType").value === "Exercise Induced Angina") {
+            return true;
+        }
+        if (document.getElementById("dataType").value === "Slope") {
+            return true;
+        }
+        if (document.getElementById("dataType").value === "Vessels") {
+            return true;
+        }
+        if (document.getElementById("dataType").value === "Thallium Stress Test Result") {
+            return true;
+        }
+        if (document.getElementById("dataType").value === "oldpeak") {
+            // TODO validation
+            return true;
+        }
+
+        return (document.getElementById("dataType").value === "Chest Pain Type");
     }
