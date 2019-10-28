@@ -8,10 +8,12 @@ link(rel='stylesheet', href='css/data_input.css')
                     select(id='dataType' style="width: 40%; height: 100%; margin-right: 1%;")
                         option(value='Age') Age
                         option(value='Gender') Gender
+                        option(value='Education Level') Education Level
                         option(value='Weight') Weight
                         option(value='Temperature') Temperature
                         option(value='Blood Pressure') Blood Pressure
                         option(value='Fasting Blood Sugar') Fasting Blood Sugar
+                        option(value='cholesterol') Total Cholesterol
                         option(value='Heartbeats Rate') Maximum Heartbeats Rate
                         // TODO restecg?
                         option(value='Chest Pain Type') Chest Pain Type
@@ -22,11 +24,19 @@ link(rel='stylesheet', href='css/data_input.css')
                         option(value="Vessels") Number of Major Vessels
                         option(value="Thallium Stress Test Result") Thallium Stress Test Result
                         option(value='Oxygen Level') Oxygen Level
+                        option(value='Do you currently smoke?') Do you currently smoke?
+                        option(value='Cigarettes per day') Cigarettes Per Day
 
                     input(style="width: 59%; padding-left: 10px;" type='number', id="data", placeholder='year(s)', required="false")
                     select(id='genderToggle' style="width: 58%; height: 100%; margin-right: 1%; display: none;")
                         option(value='Male') Male
                         option(value='Female') Female
+                    select(id='educationToggle' style="width: 58%; height: 100%; margin-right: 1%; display: none;")
+                        option(value='Not Educated') Not Educated
+                        option(value='Primary') Primary
+                        option(value='Secondary') Secondary
+                        option(value='Vocational') Vocational
+                        option(value='College & Post College') College & Post College
                     select(id='chestPainType' style="width: 58%; height: 100%; margin-right: 1%; display: none;")
                         option(value='typical angina') typical angina
                         option(value='atypical angina') atypical angina
@@ -48,6 +58,9 @@ link(rel='stylesheet', href='css/data_input.css')
                         option(value='Normal') Normal
                         option(value='Fixed Defect') Fixed Defect
                         option(value='Reversible Defect') Reversible Defect
+                    select(id='smokerToggle' style="width: 58%; height: 100%; margin-right: 1%; display: none;")
+                        option(value='Yes') Yes
+                        option(value='No') No
 
                 .input-group-btn
                     button.btn.btn-success.add-more(type='button')
@@ -124,12 +137,16 @@ script(type='text/javascript').
         if (document.getElementById("dataType").value === "Gender") {
             return document.getElementById("genderToggle").value;
         }
+        if (document.getElementById("dataType").value === "Education Level") {
+            return document.getElementById("educationToggle").value;
+        }
         if (document.getElementById("dataType").value === "Chest Pain Type") {
             return document.getElementById("chestPainType").value;
         }
         if (document.getElementById("dataType").value === "Exercise Induced Angina") {
             return document.getElementById("exang").value;
         }
+
         if (document.getElementById("dataType").value === "Slope") {
             return document.getElementById("slopeType").value;
         }
@@ -139,6 +156,9 @@ script(type='text/javascript').
         if (document.getElementById("dataType").value === "Thallium Stress Test Result") {
             return document.getElementById("thal").value;
         }
+        if (document.getElementById("dataType").value === "Do you currently smoke?") {
+            return document.getElementById("smokerToggle").value;
+        }
         return document.getElementById("data").value;
     }
 
@@ -146,7 +166,9 @@ script(type='text/javascript').
         $("#dataType").change(function () {
             document.getElementById("chestPainType").style.display = "none";
             document.getElementById("genderToggle").style.display = "none";
+            document.getElementById("educationToggle").style.display = "none";
             document.getElementById("exang").style.display = "none";
+            document.getElementById("smokerToggle").style.display = "none";
             document.getElementById("slopeType").style.display = "none";
             document.getElementById("numberVessels").style.display = "none";
             document.getElementById("thal").style.display = "none";
@@ -156,36 +178,39 @@ script(type='text/javascript').
                 document.getElementById("data").setAttribute("placeholder", "year(s)");
                 return;
             }
-            if (document.getElementById("dataType").value == "Gender") {
+            if (document.getElementById("dataType").value === "Gender") {
                 document.getElementById("data").style.display = "none";
                 document.getElementById("chestPainType").style.display = "none";
                 document.getElementById("genderToggle").style.display = "inline";
             }
-            if (document.getElementById("dataType").value == "Temperature") {
-                document.getElementById("data").setAttribute("placeholder", "Celsius");
-                return;
+            if (document.getElementById("dataType").value === "Education Level") {
+                document.getElementById("data").style.display = "none";
+                // document.getElementById("chestPainType").style.display = "none";
+                document.getElementById("educationToggle").style.display = "inline";
             }
-            if (document.getElementById("dataType").value == "Blood Pressure") {
+            if (document.getElementById("dataType").value === "Temperature") {
+                document.getElementById("data").setAttribute("placeholder", "Celsius");
+            }
+            if (document.getElementById("dataType").value === "Blood Pressure") {
                 document.getElementById("data").setAttribute("placeholder", "Systolic/Diastolic (mmHg/mmHg)");
                 document.getElementById("data").setAttribute("type", "text");
-                return;
             }
             if (document.getElementById("dataType").value === "Fasting Blood Sugar") {
                 document.getElementById("data").setAttribute("placeholder", "mg/dl");
-                return;
             }
-            if (document.getElementById("dataType").value == "Heartbeats Rate") {
+            if (document.getElementById("dataType").value === "cholesterol") {
+                document.getElementById("data").setAttribute("placeholder", "mg/dl");
+            }
+            if (document.getElementById("dataType").value === "Heartbeats Rate") {
                 document.getElementById("data").setAttribute("placeholder", "BPM");
-                return;
             }
-            if (document.getElementById("dataType").value == "Oxygen Level") {
+            if (document.getElementById("dataType").value === "Oxygen Level") {
                 document.getElementById("data").setAttribute("placeholder", "mmHg");
-                return;
             }
-            if (document.getElementById("dataType").value == "Weight") {
+            if (document.getElementById("dataType").value === "Weight") {
                 document.getElementById("data").setAttribute("placeholder", "KG");
             }
-            if (document.getElementById("dataType").value == "Chest Pain Type") {
+            if (document.getElementById("dataType").value === "Chest Pain Type") {
                 document.getElementById("data").style.display = "none";
                 document.getElementById("chestPainType").style.display = "inline";
             }
@@ -211,6 +236,13 @@ script(type='text/javascript').
             if (document.getElementById("dataType").value === "oldpeak") {
                 document.getElementById("data").setAttribute("placeholder", "");
             }
+            if (document.getElementById("dataType").value === "Do you currently smoke?") {
+                document.getElementById("data").style.display = "none";
+                document.getElementById("smokerToggle").style.display = "inline";
+            }
+            if (document.getElementById("dataType").value === "Cigarettes per day") {
+                document.getElementById("data").setAttribute("placeholder", "how many cigarettes do you smoke per day?");
+            }
         });
     }
 
@@ -229,7 +261,9 @@ script(type='text/javascript').
         if (document.getElementById("dataType").value === "Age") {
             return (inputValue <= 150 && inputValue >= 1);
         }
-        if (document.getElementById("dataType").value === "Gender") {
+        if (document.getElementById("dataType").value === "Gender"
+            || document.getElementById("dataType").value === "Education Level"
+            || document.getElementById("dataType").value === "Do you currently smoke?") {
             return true;
         }
         if (document.getElementById("dataType").value === "Blood Pressure") {
@@ -247,6 +281,9 @@ script(type='text/javascript').
             return (inputValue <= 200 && inputValue >= 30);
         }
         if (document.getElementById("dataType").value === "Fasting Blood Sugar") {
+            return (inputValue <= 1000 && inputValue > 0);
+        }
+        if (document.getElementById("dataType").value === "cholesterol") {
             return (inputValue <= 1000 && inputValue > 0);
         }
         if (document.getElementById("dataType").value === "Oxygen Level") {
@@ -273,6 +310,9 @@ script(type='text/javascript').
         if (document.getElementById("dataType").value === "oldpeak") {
             // TODO validation
             return true;
+        }
+        if (document.getElementById("dataType").value === "Cigarettes per day") {
+            return (inputValue <= 100 && inputValue >= 0);
         }
 
         return (document.getElementById("dataType").value === "Chest Pain Type");

@@ -1,10 +1,9 @@
-<!DOCTYPE html><html lang="en"><head><title>MediShift</title><link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"><script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script></head><body><div class="navbar navbar-dark bg-dark shadow-sm"><div class="container d-flex justify-content-between"><button class="navbar-btn" id="sidebarCollapse" type="button"><span></span><span></span><span></span></button><a class="navbar-brand d-flex align-items-center" href="/"><strong>MediShift</strong></a></div></div><div class="container"><div class="wrapper"><script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script><link rel="stylesheet" href="css/style5.css"><nav id="sidebar"><!-- Sidebar Header--><div class="sidebar-header"><h3>Collapsible Sidebar</h3><!-- Sidebar Links--></div><ul class="list-unstyled components"><li class="active"><a href="#">Home</a></li><li><a href="#">About</a></li><li><!-- Link with dropdown items--><a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">Pages</a><ul class="collapse list-unstyled" id="homeSubmenu"><li><a href="#">Page</a></li><li><a href="#">Page</a></li><li><a href="#">Page</a></li></ul></li><li><a href="#">Portfolio</a></li><li><a href="#">Contact</a></li></ul></nav><script type="text/javascript">$(document).ready(function () {
+<!DOCTYPE html><html lang="en"><head><title>MediShift</title><link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"><script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script></head><body><div class="navbar navbar-dark bg-dark shadow-sm"><div class="container d-flex justify-content-between"><button class="navbar-btn" id="sidebarCollapse" type="button"><span></span><span></span><span></span></button><a class="navbar-brand d-flex align-items-center" href="/"><strong>MediShift</strong></a></div></div><div class="container"><div class="wrapper"><script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script><link rel="stylesheet" href="css/style5.css"><nav id="sidebar"><!-- Sidebar Header--><div class="sidebar-header"><h3></h3><!-- Sidebar Links--></div><ul class="list-unstyled components"><li><a href="#">Medical Consultant</a></li><li><a href="#">Notification</a></li><li><a href="#">Activity Log</a></li><li><a href="#">Tutorial</a></li><li><a href="#">Subscription Plan</a></li><li><a href="#">Help</a></li><hr><li><a href="#">Settings</a></li><li><a href="/logout">Logout</a></li></ul></nav><script type="text/javascript">$(document).ready(function () {
     $('#sidebarCollapse').on('click', function () {
         $('#sidebar').toggleClass('active');
         $(this).toggleClass('active');
     });
-});
-</script><div id="content"><link rel="stylesheet" href="css/data_input.css"><input id="isSaved" type="hidden"><input id="medicalRecords" type="hidden"><div class="display-result-here"></div><script type="text/javascript">$(document).ready(function () {
+});</script><div id="content"><link rel="stylesheet" href="css/data_input.css"><input id="isSaved" type="hidden"><input id="medicalRecords" type="hidden"><input id="cardiovascularPercentage" type="hidden"><div class="card border-primary mb-3" style="max-width: 33%; display: inline-block; margin-left: 33%"><div class="card-header">Analysis Result</div><div class="card-body text-primary"><h5 class="card-title">Your Risk of Having Cardiovascular Diseases is:</h5><p class="card-text" style="display: inline-block; margin-left: 40%; padding: 2%;"><span class="label label-info" id="percentage" style="font-size: 14pt;"></span></p></div></div><div class="display-result-here"></div><script type="text/javascript">$(document).ready(function () {
     let isSaved = document.getElementById('isSaved').value;
     console.log(document.getElementById('isSaved').value);
     if (isSaved == 0) {
@@ -19,6 +18,7 @@
         '<div class="panel-heading"><h3><strong>New Medical Records Successfully Saved!</strong></h3><p>you can view your medical records at any time using report function.</p></div>' +
         '</div>';
     let medicalRecords = JSON.parse(document.getElementById('medicalRecords').value);
+    document.getElementById('percentage').innerHTML = document.getElementById('cardiovascularPercentage').value + "%";
     if (medicalRecords.temperature) {
         html = analyzeTemperature(medicalRecords.temperature, html);
     }
@@ -52,7 +52,7 @@ function analyzeTemperature(temperature, html) {
 }
 
 function analyzeHeartbeatsRate(heartbeatsRate, html) {
-    if (heartbeatsRate > 100) {
+    if (heartbeatsRate > 200) {
         html += '<div class="panel panel-danger">\n' +
             '<div class="panel-heading">High Heartbeats Rate</div>\n' +
             '<div class="panel-body">your heartbeats rate is high</div>\n' +

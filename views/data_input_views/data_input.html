@@ -1,16 +1,16 @@
-<!DOCTYPE html><html lang="en"><head><title>MediShift</title><link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"><script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script></head><body><div class="navbar navbar-dark bg-dark shadow-sm"><div class="container d-flex justify-content-between"><button class="navbar-btn" id="sidebarCollapse" type="button"><span></span><span></span><span></span></button><a class="navbar-brand d-flex align-items-center" href="/"><strong>MediShift</strong></a></div></div><div class="container"><div class="wrapper"><script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script><link rel="stylesheet" href="css/style5.css"><nav id="sidebar"><!-- Sidebar Header--><div class="sidebar-header"><h3>Collapsible Sidebar</h3><!-- Sidebar Links--></div><ul class="list-unstyled components"><li class="active"><a href="#">Home</a></li><li><a href="#">About</a></li><li><!-- Link with dropdown items--><a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">Pages</a><ul class="collapse list-unstyled" id="homeSubmenu"><li><a href="#">Page</a></li><li><a href="#">Page</a></li><li><a href="#">Page</a></li></ul></li><li><a href="#">Portfolio</a></li><li><a href="#">Contact</a></li></ul></nav><script type="text/javascript">$(document).ready(function () {
+<!DOCTYPE html><html lang="en"><head><title>MediShift</title><link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"><script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script></head><body><div class="navbar navbar-dark bg-dark shadow-sm"><div class="container d-flex justify-content-between"><button class="navbar-btn" id="sidebarCollapse" type="button"><span></span><span></span><span></span></button><a class="navbar-brand d-flex align-items-center" href="/"><strong>MediShift</strong></a></div></div><div class="container"><div class="wrapper"><script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script><link rel="stylesheet" href="css/style5.css"><nav id="sidebar"><!-- Sidebar Header--><div class="sidebar-header"><h3></h3><!-- Sidebar Links--></div><ul class="list-unstyled components"><li><a href="#">Medical Consultant</a></li><li><a href="#">Notification</a></li><li><a href="#">Activity Log</a></li><li><a href="#">Tutorial</a></li><li><a href="#">Subscription Plan</a></li><li><a href="#">Help</a></li><hr><li><a href="#">Settings</a></li><li><a href="/logout">Logout</a></li></ul></nav><script type="text/javascript">$(document).ready(function () {
     $('#sidebarCollapse').on('click', function () {
         $('#sidebar').toggleClass('active');
         $(this).toggleClass('active');
     });
-});</script><div id="content"><link rel="stylesheet" href="css/data_input.css"><div class="input_container"><div class="panel panel-default"><div class="panel-heading">Manual Health Data Entry</div><div class="panel-body"><div class="input-group control-group"><div class="form-control"><select id="dataType" style="width: 40%; height: 100%; margin-right: 1%;"><option value="Temperature">Temperature</option><option value="Blood Pressure">Blood Pressure</option><option value="Heartbeats Rate">Heartbeats Rate</option><option value="Oxygen Level">Oxygen Level</option><option value="Weight">Weight</option></select><input style="width: 59%; padding-left: 10px;" type="number" id="data" placeholder="Celsius" required="false"></div><div class="input-group-btn"><button class="btn btn-success add-more" type="button"><i class="glyphicon glyphicon-plus"></i></button></div></div><form method="POST" action="/input_data"><div class="after-add-more"></div><input class="aap-cta-button" type="submit" value="Submit" style="margin: 1%; float: right;"></form><!-- Copy Fields--><div class="copy hide"><div class="control-group input-group" style="margin-top:10px;"><input class="form-control" type="text" id="new_data" name="addmore[]" placeholder="Enter Name Here"><div class="input-group-btn"><button class="btn btn-danger remove" type="button"><i class="glyphicon glyphicon-minus"></i></button></div></div></div><div class="alert alert-warning hide" id="type-exist" style="position: absolute; top: 0px; right: 16px;"><strong>Warning!</strong> You have already entered this value. Remove it first To add new value</div><div class="alert alert-warning hide" id="invalid-value" style="position: absolute; top: 0px; right: 16px;"><strong>Warning!</strong> Please enter a valid value</div></div></div></div><script type="text/javascript">$(document).ready(function () {
+});</script><div id="content"><link rel="stylesheet" href="css/data_input.css"><div class="input_container"><div class="panel panel-default"><div class="panel-heading">Manual Health Data Entry</div><div class="panel-body"><div class="input-group control-group"><div class="form-control"><select id="dataType" style="width: 40%; height: 100%; margin-right: 1%;"><option value="Age">Age</option><option value="Gender">Gender</option><option value="Weight">Weight</option><option value="Temperature">Temperature</option><option value="Blood Pressure">Blood Pressure</option><option value="Fasting Blood Sugar">Fasting Blood Sugar</option><option value="Heartbeats Rate">Maximum Heartbeats Rate</option><!-- TODO restecg?--><option value="Chest Pain Type">Chest Pain Type</option><option value="Serum Cholesterol">Serum Cholesterol</option><option value="Exercise Induced Angina">Exercise Induced Angina</option><option value="oldpeak">ST depression induced by exercise relative to rest</option><option value="Slope">Slope of the peak exercise ST segment</option><option value="Vessels">Number of Major Vessels</option><option value="Thallium Stress Test Result">Thallium Stress Test Result</option><option value="Oxygen Level">Oxygen Level</option></select><input style="width: 59%; padding-left: 10px;" type="number" id="data" placeholder="year(s)" required="false"><select id="genderToggle" style="width: 58%; height: 100%; margin-right: 1%; display: none;"><option value="Male">Male</option><option value="Female">Female</option></select><select id="chestPainType" style="width: 58%; height: 100%; margin-right: 1%; display: none;"><option value="typical angina">typical angina</option><option value="atypical angina">atypical angina</option><option value="non-anginal pain">non-anginal pain</option><option value="asymptomatic">asymptomatic</option></select><select id="exang" style="width: 58%; height: 100%; margin-right: 1%; display: none;"><option value="yes">Yes</option><option value="no">No</option></select><select id="slopeType" style="width: 58%; height: 100%; margin-right: 1%; display: none;"><option value="Up Sloping">Up Sloping</option><option value="Flat">Flat</option><option value="Down Sloping">Down Sloping</option></select><select id="numberVessels" style="width: 58%; height: 100%; margin-right: 1%; display: none;"><option value="0">No Vessels</option><option value="1">One</option><option value="2">Two</option><option value="3">Three</option></select><select id="thal" style="width: 58%; height: 100%; margin-right: 1%; display: none;"><option value="Normal">Normal</option><option value="Fixed Defect">Fixed Defect</option><option value="Reversible Defect">Reversible Defect</option></select></div><div class="input-group-btn"><button class="btn btn-success add-more" type="button"><i class="glyphicon glyphicon-plus"></i></button></div></div><form method="POST" action="/input_data"><div class="after-add-more"></div><input class="aap-cta-button" type="submit" value="Submit" style="margin: 1%; float: right;"></form><!-- Copy Fields--><div class="copy hide"><div class="control-group input-group" style="margin-top:10px;"><input class="form-control" type="text" id="new_data" name="addmore[]" placeholder="Enter Name Here"><div class="input-group-btn"><button class="btn btn-danger remove" type="button"><i class="glyphicon glyphicon-minus"></i></button></div></div></div><div class="alert alert-warning hide" id="type-exist" style="position: absolute; top: 0px; right: 16px;"><strong>Warning!</strong> You have already entered this value. Remove it first To add new value</div><div class="alert alert-warning hide" id="invalid-value" style="position: absolute; top: 0px; right: 16px;"><strong>Warning!</strong> Please enter a valid value</div></div></div></div><script type="text/javascript">$(document).ready(function () {
     $(".add-more").click(function () {
         var dataType = document.getElementsByName("newDataType");
         if (dataType) {
             var found = false;
             $(dataType).each(function () {
                 console.log(this.getAttribute("value"));
-                if (this.getAttribute("value") == document.getElementById("dataType").value) {
+                if (this.getAttribute("value") === document.getElementById("dataType").value) {
                     $("#type-exist").toggleClass("hide");
                     setTimeout(function () {
                         $("#type-exist").toggleClass("hide");
@@ -22,10 +22,6 @@
                 return;
             }
         }
-        if (!document.getElementById("data").value) {
-            invalidDataWarning();
-            return;
-        }
 
         // data input validation
         if (!isDataInputValid()) {
@@ -35,11 +31,10 @@
 
         var html = '<div class="control-group input-group" style="margin-top:10px;">' +
             '<label class="form-control"><p style="font-weight: bold; color: #000000">' +
-            document.getElementById("dataType").value + ":  " + document.getElementById("data").value + '</p></label>' +
+            document.getElementById("dataType").value + ":  " + getInputData() + '</p></label>' +
             '<input class="form-control" type="hidden" id="newDataType" name="newDataType" value="' +
             document.getElementById("dataType").value + '" />' +
-            '<input class="form-control" type="hidden" id="newData" name="newData" value="' +
-            document.getElementById("data").value + '" />' +
+            '<input class="form-control" type="hidden" id="newData" name="newData" value="' + getInputData() + '" />' +
             '<div class="input-group-btn">' +
             '<button class="btn btn-danger remove" type="button">' +
             '<i class="glyphicon glyphicon-minus"></i>' +
@@ -54,9 +49,50 @@
     setDataInputUnits();
 });
 
+/**
+* get input data base on the data type selected.
+ */
+function getInputData() {
+    if (document.getElementById("dataType").value === "Gender") {
+        return document.getElementById("genderToggle").value;
+    }
+    if (document.getElementById("dataType").value === "Chest Pain Type") {
+        return document.getElementById("chestPainType").value;
+    }
+    if (document.getElementById("dataType").value === "Exercise Induced Angina") {
+        return document.getElementById("exang").value;
+    }
+    if (document.getElementById("dataType").value === "Slope") {
+        return document.getElementById("slopeType").value;
+    }
+    if (document.getElementById("dataType").value === "Vessels") {
+        return document.getElementById("numberVessels").value;
+    }
+    if (document.getElementById("dataType").value === "Thallium Stress Test Result") {
+        return document.getElementById("thal").value;
+    }
+    return document.getElementById("data").value;
+}
+
 function setDataInputUnits() {
     $("#dataType").change(function () {
+        document.getElementById("chestPainType").style.display = "none";
+        document.getElementById("genderToggle").style.display = "none";
+        document.getElementById("exang").style.display = "none";
+        document.getElementById("slopeType").style.display = "none";
+        document.getElementById("numberVessels").style.display = "none";
+        document.getElementById("thal").style.display = "none";
+        document.getElementById("data").style.display = "inline";
         document.getElementById("data").value = null;
+        if (document.getElementById("dataType").value === "Age") {
+            document.getElementById("data").setAttribute("placeholder", "year(s)");
+            return;
+        }
+        if (document.getElementById("dataType").value == "Gender") {
+            document.getElementById("data").style.display = "none";
+            document.getElementById("chestPainType").style.display = "none";
+            document.getElementById("genderToggle").style.display = "inline";
+        }
         if (document.getElementById("dataType").value == "Temperature") {
             document.getElementById("data").setAttribute("placeholder", "Celsius");
             return;
@@ -64,6 +100,10 @@ function setDataInputUnits() {
         if (document.getElementById("dataType").value == "Blood Pressure") {
             document.getElementById("data").setAttribute("placeholder", "Systolic/Diastolic (mmHg/mmHg)");
             document.getElementById("data").setAttribute("type", "text");
+            return;
+        }
+        if (document.getElementById("dataType").value === "Fasting Blood Sugar") {
+            document.getElementById("data").setAttribute("placeholder", "mg/dl");
             return;
         }
         if (document.getElementById("dataType").value == "Heartbeats Rate") {
@@ -77,6 +117,32 @@ function setDataInputUnits() {
         if (document.getElementById("dataType").value == "Weight") {
             document.getElementById("data").setAttribute("placeholder", "KG");
         }
+        if (document.getElementById("dataType").value == "Chest Pain Type") {
+            document.getElementById("data").style.display = "none";
+            document.getElementById("chestPainType").style.display = "inline";
+        }
+        if (document.getElementById("dataType").value === "Serum Cholesterol") {
+            document.getElementById("data").setAttribute("placeholder", "mg/dL");
+        }
+        if (document.getElementById("dataType").value === "Exercise Induced Angina") {
+            document.getElementById("data").style.display = "none";
+            document.getElementById("exang").style.display = "inline";
+        }
+        if (document.getElementById("dataType").value === "Slope") {
+            document.getElementById("data").style.display = "none";
+            document.getElementById("slopeType").style.display = "inline";
+        }
+        if (document.getElementById("dataType").value === "Vessels") {
+            document.getElementById("data").style.display = "none";
+            document.getElementById("numberVessels").style.display = "inline";
+        }
+        if (document.getElementById("dataType").value === "Thallium Stress Test Result") {
+            document.getElementById("data").style.display = "none";
+            document.getElementById("thal").style.display = "inline";
+        }
+        if (document.getElementById("dataType").value === "oldpeak") {
+            document.getElementById("data").setAttribute("placeholder", "");
+        }
     });
 }
 
@@ -89,12 +155,18 @@ function invalidDataWarning() {
 
 function isDataInputValid() {
     var inputValue = document.getElementById("data").value;
-    if (document.getElementById("dataType").value == "Temperature") {
+    if (document.getElementById("dataType").value === "Temperature") {
         return (inputValue <= 40 && inputValue >= 34);
     }
-    if (document.getElementById("dataType").value == "Blood Pressure") {
+    if (document.getElementById("dataType").value === "Age") {
+        return (inputValue <= 150 && inputValue >= 1);
+    }
+    if (document.getElementById("dataType").value === "Gender") {
+        return true;
+    }
+    if (document.getElementById("dataType").value === "Blood Pressure") {
         inputValue = inputValue.split("/");
-        if (inputValue.length != 2) {
+        if (inputValue.length !== 2) {
             return false;
         }
 
@@ -103,15 +175,39 @@ function isDataInputValid() {
         return ($.isNumeric(inputValue[0]) && inputValue[0] <= 190 && inputValue[0] >= 70 &&
             $.isNumeric(inputValue[1]) && inputValue[1] <= 100 && inputValue[1] >= 40)
     }
-    if (document.getElementById("dataType").value == "Heartbeats Rate") {
+    if (document.getElementById("dataType").value === "Heartbeats Rate") {
         return (inputValue <= 200 && inputValue >= 30);
     }
-    if (document.getElementById("dataType").value == "Oxygen Level") {
+    if (document.getElementById("dataType").value === "Fasting Blood Sugar") {
+        return (inputValue <= 1000 && inputValue > 0);
+    }
+    if (document.getElementById("dataType").value === "Oxygen Level") {
         return (inputValue <= 200 && inputValue >= 30);
     }
-    if (document.getElementById("dataType").value == "Weight") {
+    if (document.getElementById("dataType").value === "Weight") {
         return (inputValue <= 1000 && inputValue >= 2);
     }
+    if (document.getElementById("dataType").value === "Serum Cholesterol") {
+        return (inputValue <= 1000 && inputValue > 0);
+    }
+    if (document.getElementById("dataType").value === "Exercise Induced Angina") {
+        return true;
+    }
+    if (document.getElementById("dataType").value === "Slope") {
+        return true;
+    }
+    if (document.getElementById("dataType").value === "Vessels") {
+        return true;
+    }
+    if (document.getElementById("dataType").value === "Thallium Stress Test Result") {
+        return true;
+    }
+    if (document.getElementById("dataType").value === "oldpeak") {
+        // TODO validation
+        return true;
+    }
+
+    return (document.getElementById("dataType").value === "Chest Pain Type");
 }</script></div></div><!--script(type='text/javascript', src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js')--><!--link(rel='stylesheet', href='https://use.fontawesome.com/releases/v5.0.13/css/all.css')--><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous"><link rel="stylesheet" href="css/nav_bar.css"><div class="nav_bar_wrapper"><nav class="tabs"><selector><a id="your_health" href="/"><i class="fas fa-stethoscope"></i><span class="nav-tabs-title">Your Health</span></a><a id="analysis" href="/input_data"><i class="fas fa-chart-bar"></i><span class="nav-tabs-title">Analysis</span></a><a id="suggesions" href="/"><i class="fas fa-pills"></i><span class="nav-tabs-title">Suggestions</span></a><a id="tracking" href="/"><i class="fas fa-file-contract"></i><span class="nav-tabs-title">health tracking</span></a><a id="reports" href="/report"><i class="fas fa-file-medical-alt"></i><span class="nav-tabs-title">reports</span></a></selector></nav></div><script type="text/javascript" src="js/nav_bar.js"></script><script type="text/javascript">$(document).ready(function () {
     $('.tabs a').removeClass("active");
     var tab = document.getElementById("analysis");
